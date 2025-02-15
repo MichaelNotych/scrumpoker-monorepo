@@ -13,7 +13,7 @@ const createRoom = async (body) => {
 };
 
 const getRoomById = async (id) => {
-	const room = await Room.findOne({id: id});
+	const room = await Room.findOne({_id: id});
 	if (!room) {
 		throw new ApiError(status.NOT_FOUND, "Room not found");
 	}
@@ -29,6 +29,7 @@ const deleteRoomById = async (id) => {
  * @param {string} roomId 
  */
 const enterRoom = async (roomId, userId, res) => {
+	
 	const user = await userService.getUserById(userId);
 	user.roomId = roomId;
 	await user.save();
