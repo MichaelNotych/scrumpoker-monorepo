@@ -21,7 +21,7 @@ defineProps({
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 0.5rem;
+	gap: 1rem;
 }
 
 .user__vote {
