@@ -209,7 +209,7 @@ const removeUserDataInDB = async (userId, roomId) => {
 	const roomsCount = Object.keys(ACTIVE_ROOMS).length;
 	// if there is no users in room or current user that left room is room owner
 	// delete room, room users and votes
-	if (!Object.keys(ACTIVE_ROOMS[roomId]).length || userIsRoomOwner) {
+	if ((ACTIVE_ROOMS[roomId] && !Object.keys(ACTIVE_ROOMS[roomId]).length) || userIsRoomOwner) {
 		sendEvent("roomDeleted", roomId, {});
 		delete ACTIVE_ROOMS[roomId];
 		await deleteRoomById(roomId);
