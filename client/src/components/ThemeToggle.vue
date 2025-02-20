@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
+import ArrowIcon from './icons/ArrowIcon.vue';
 
 const theme = ref('light');
 onMounted(() => {
@@ -17,13 +18,34 @@ const handleThemeChange = () => {
 	<div class="theme">
 		<input @input="handleThemeChange" class="theme__input" type="checkbox" name="theme" id="theme" :checked="theme === 'dark'" />
 		<div class="theme__toggle"></div>
+		<div class="theme__desc">
+			Click to enable {{theme === 'light' ? 'dark' : 'light'}} mode
+			<ArrowIcon/>
+		</div>
 	</div>
 </template>
 <style scoped>
 .theme {
 	position: fixed;
-	right: 1rem;
-	bottom: 1rem;
+	right: 2rem;
+	bottom: 2rem;
+	z-index: 2;
+}
+
+.theme__desc {
+	font-size: 0.8rem;
+	color: var(--text-color);
+	position: fixed;
+	right: 5rem;
+	bottom: 4rem;
+	width: 6rem;
+	opacity: 0.6;
+}
+
+.theme__desc svg {
+	position: absolute;
+	left: 3.5rem;
+	top: 100%;
 }
 
 .theme__toggle {

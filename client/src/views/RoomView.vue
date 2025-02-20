@@ -22,6 +22,9 @@ onMounted(() => {
 			roomStore.cancelRoomStream();
 		}
 	});
+
+	// setting document title
+	document.title = roomStore.roomName;
 });
 </script>
 
