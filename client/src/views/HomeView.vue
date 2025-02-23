@@ -1,6 +1,8 @@
 <script setup>
 import ViewWrapper from '@/components/ViewWrapper.vue';
 import RoomForm from '@/components/RoomForm.vue';
+
+// todo: add dark theme screenshots
 </script>
 
 <template>
@@ -131,6 +133,7 @@ import RoomForm from '@/components/RoomForm.vue';
 
 .hero__img {
 	width: 50%;
+	border-radius: 0.25rem;
 }
 
 @media (max-width: 480px) {
