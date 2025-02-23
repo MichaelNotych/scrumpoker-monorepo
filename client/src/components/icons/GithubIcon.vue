@@ -20,7 +20,7 @@
 	</svg>
 </template>
 
-<style>
+<style scoped>
 svg path {
 	fill: var(--text-color);
 }

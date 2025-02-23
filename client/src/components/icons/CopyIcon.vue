@@ -16,7 +16,7 @@
 </script>
 
 <template>
-<svg class="copy" :width="width" :height="height" x="0" y="0" viewBox="0 0 512 512">
+<svg :width="width" :height="height" x="0" y="0" viewBox="0 0 512 512">
 	<g>
 		<path
 			d="M64.6 319.3c-17.5-17.5-26.2-38.7-26.2-63.4 0-23.7 9.5-46.4 26.2-63.2 17.5-17.5 38.6-26.2 63.4-26.2h89.6c10.6 0 19.2-8.6 19.2-19.2s-8.6-19.2-19.2-19.2H128c-35.4 0-65.6 12.5-90.6 37.4S0 220.6 0 256s12.5 65.6 37.4 90.6S92.6 384 128 384h89.6c10.6 0 19.2-8.6 19.2-19.2s-8.6-19.2-19.2-19.2h-88.8c-24.1.1-47.2-9.4-64.2-26.3z"
@@ -34,8 +34,8 @@
 </svg>
 </template>
 
-<style>
-	.copy path {
+<style scoped>
+	svg path {
 		fill: var(--accent-color);
 	}
 </style>
