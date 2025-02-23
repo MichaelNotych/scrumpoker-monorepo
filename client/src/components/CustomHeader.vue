@@ -20,8 +20,7 @@ const userStore = useUserStore();
 		</div>
 		<div v-else class="header__wrapper">
 			<a class="header__logo" href="/">
-				<img src="../assets/logo.svg" alt="logo"/>
-				crum poker
+				scrumpoker
 			</a>
 			<a href="https://github.com/MichaelNotych/scrumpoker-monorepo/" class="header__link">
 				<GithubIcon/>
@@ -39,8 +38,15 @@ const userStore = useUserStore();
 	padding: 2rem 3rem;
 }
 
+@media (max-width: 960px) {
+	.header {
+		padding: 2rem;
+	}
+}
+
 @media (max-width: 760px) {
 	.header {
+		position: static;
 		padding: 1rem;
 	}
 }
@@ -56,7 +62,7 @@ const userStore = useUserStore();
 	font-size: 1.25rem;
 	cursor: pointer;
 	display: flex;
-    gap: 10px;
+    gap: 0.5rem;
     align-items: center;
 	transition: color 0.3s;
 }
@@ -66,12 +72,25 @@ const userStore = useUserStore();
 }
 
 .header__logo {
+	position: relative;
 	color: inherit;
-	display: flex;
-	align-items: center;
-	gap: 0.1rem;
 	text-decoration: none;
 	font-size: 1.25rem;
+	line-height: 1;
+	padding-left: 0.75rem;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.header__logo::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 100%;
+	background-color: var(--accent-color);
 }
 
 .header__link {

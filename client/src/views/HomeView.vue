@@ -5,8 +5,8 @@ import { useToast } from 'vue-toastification';
 import { useUserStore } from '@/stores/user';
 import { useRoomStore } from '@/stores/room';
 import CustomButton from '@/components/CustomButton.vue';
-import CustomWrapper from '@/components/CustomWrapper.vue';
 import HeroIntro from '@/components/HeroIntro.vue';
+import ViewWrapper from '@/components/ViewWrapper.vue';
 
 const toast = useToast();
 
@@ -82,66 +82,84 @@ const submitHandler = async () => {
 </script>
 
 <template>
-	<div class="hero">
-		<CustomWrapper>
-			<form class="form" @submit.prevent="submitHandler">
-				<input v-model="form.userName" required class="form__input" name="user_name" id="user_name"
-					placeholder="Username*" />
-				<input v-if="form.action === 'create'" v-model="form.roomName" required class="form__input" name="room_name"
-					id="room_name" placeholder="Room name*" />
-				<input v-else-if="form.action === 'enter'" v-model="form.roomId" required class="form__input" name="room_id"
-					id="room_id" placeholder="Room ID*" />
-				<CustomButton :is-loading="form.isLoading" size="lg" :disabled="!form.isValid">
-					{{ form.action === 'create' ? 'Create' : 'Enter' }}
-				</CustomButton>
-				<p class="hint" v-if="form.action === 'create'">
-					Want to join existed room?
-					<button class="hint__button" @:click="actionHandler('enter')"> Click here </button>
-				</p>
-				<p class="hint" v-if="form.action === 'enter'">
-					Want to create new room?
-					<button class="hint__button" @:click="actionHandler('create')"> Click here </button>
-				</p>
-			</form>
-		</CustomWrapper>
-		<HeroIntro/>
-	</div>
+	<ViewWrapper>
+		<div class="hero">
+			<div class="hero__form">
+				<form class="form" @submit.prevent="submitHandler">
+					<div class="form__title">
+						{{ form.action === 'create' ? 'Create room' : 'Join room' }}
+					</div>
+					<input v-model="form.userName" required class="form__input" name="user_name" id="user_name"
+						placeholder="Username*" />
+					<input v-if="form.action === 'create'" v-model="form.roomName" required class="form__input"
+						name="room_name" id="room_name" placeholder="Room name*" />
+					<input v-else-if="form.action === 'enter'" v-model="form.roomId" required class="form__input"
+						name="room_id" id="room_id" placeholder="Room ID*" />
+					<CustomButton :is-loading="form.isLoading" size="lg" :disabled="!form.isValid">
+						{{ form.action === 'create' ? 'Create' : 'Enter' }}
+					</CustomButton>
+					<p class="hint" v-if="form.action === 'create'">
+						Want to join existed room?
+						<button class="hint__button" @:click="actionHandler('enter')"> Click here </button>
+					</p>
+					<p class="hint" v-if="form.action === 'enter'">
+						Want to create new room?
+						<button class="hint__button" @:click="actionHandler('create')"> Click here </button>
+					</p>
+				</form>
+			</div>
+			<HeroIntro />
+		</div>
+	</ViewWrapper>
 </template>
 
 <style>
 .hero {
 	display: flex;
-	min-height: 100vh;
+	height: 100vh;
+	min-height: fit-content;
+	flex-direction: row-reverse;
 }
 
 @media (max-width: 760px) {
 	.hero {
 		flex-direction: column;
-		padding-top: 5rem;
 	}
+}
+
+.hero__form {
+	padding: 0 1rem;
+	width: 100%;
+	margin: auto;
 }
 
 .form {
 	display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 3rem 2rem 1rem;
-    border-radius: 1rem;
-    background-color: var(--background-color-light);
-    margin: 0 2rem;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 1rem 2rem;
+	border-radius: 1rem;
+	background-color: var(--background-color-light);
+	margin: 0 2rem;
 	border: 1px solid var(--border-color);
 }
 
 @media (max-width: 960px) {
 	.form {
-		margin: 0 1rem;
+		margin: 0;
 	}
 }
 
-@media (max-width: 760px) {
-	.form {
-		margin: 0;
-		padding: 2rem 1rem 1rem;
+.form__title {
+	font-size: 2rem;
+	font-weight: 700;
+	line-height: 1.2;
+	margin: 1rem 0;
+}
+
+@media (max-width: 960px) {
+	.form__title {
+		font-size: 1.5rem;
 	}
 }
 

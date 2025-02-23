@@ -1,20 +1,30 @@
 <template>
 	<div class="hero__intro">
 		<h2 class="hero__title">How it works:</h2>
-		<ol class="hero__list">
+		<ul class="hero__list">
 			<li class="hero__item">
-				<p class="hero__subtitle">Initiate a new game</p>
-				<span class="hero__desc">Create a room and get a unique link to&nbsp;share</span>
+				<div class="hero__info">
+					<p class="hero__subtitle">Initiate a new game</p>
+					<span class="hero__desc">Create a room and get a unique link to&nbsp;share</span>
+				</div>
+				<img class="hero__img" src="../assets/how-it-works-1.png" alt="room" width="300" />
 			</li>
 			<li class="hero__item">
-				<p class="hero__subtitle">Invite Your Team</p>
-				<span class="hero__desc"> Send the link so your team can join and participate in&nbsp;realtime</span>
+				<div class="hero__info">
+					<p class="hero__subtitle">Invite Your Team</p>
+					<span class="hero__desc"> Send the link so your team can join and&nbsp;participate
+						in&nbsp;realtime</span>
+				</div>
+				<img class="hero__img" src="../assets/how-it-works-2.png" alt="room" width="300" />
 			</li>
 			<li class="hero__item">
-				<p class="hero__subtitle">Rate Tasks Together</p>
-				<span class="hero__desc">Estimate task complexity using Fibonacci values</span>
+				<div class="hero__info">
+					<p class="hero__subtitle">Rate Tasks Together</p>
+					<span class="hero__desc">Estimate task complexity using Fibonacci&nbsp;values</span>
+				</div>
+				<img class="hero__img" src="../assets/how-it-works-3.png" alt="room" width="300" />
 			</li>
-		</ol>
+		</ul>
 	</div>
 </template>
 
@@ -26,7 +36,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 3rem;
+	padding: 5rem 3rem;
 }
 
 @media (max-width: 960px) {
@@ -44,15 +54,9 @@
 }
 
 .hero__title {
-	font-size: 3rem;
+	font-size: 2rem;
 	line-height: 1.2;
 	margin: 0 0 2rem;
-}
-
-@media (max-width: 960px) {
-	.hero__title {
-		font-size: 2.5rem;
-	}
 }
 
 @media (max-width: 760px) {
@@ -67,26 +71,45 @@
 	flex-direction: column;
 	gap: 1rem;
 	margin: 0;
-	padding-left: 2rem;
-}
-
-@media (max-width: 760px) {
-	.hero__list {
-		padding-left: 1.25rem;
-	}
+	padding: 0;
+	list-style: none;
+	width: 100%;
 }
 
 .hero__item {
-	font-size: 1.5rem;
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 480px) {
 	.hero__item {
-		font-size: 1.25rem;
+		flex-direction: column;
+	}
+}
+
+.hero__info {
+	width: 50%;
+}
+
+@media (max-width: 480px) {
+	.hero__info {
+		width: 100%;
+	}
+}
+
+.hero__img {
+	width: 50%;
+}
+
+@media (max-width: 480px) {
+	.hero__img {
+		width: 100%;
 	}
 }
 
 .hero__subtitle {
+	font-size: 1.25rem;
 	font-weight: 500;
 	margin: 0;
 }

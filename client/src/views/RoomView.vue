@@ -6,7 +6,7 @@ import { useRoomStore } from '@/stores/room';
 import UserCard from '@/components/UserCard.vue';
 import VoteCards from '@/components/VoteCards.vue';
 import CustomButton from '@/components/CustomButton.vue';
-import CustomWrapper from '@/components/CustomWrapper.vue';
+import ViewWrapper from '@/components/ViewWrapper.vue';
 
 const route = useRoute();
 const roomStore = useRoomStore();
@@ -29,44 +29,55 @@ onMounted(() => {
 </script>
 
 <template>
-	<CustomWrapper>
-		<div class="room">
-			<div class="room__users">
-				<UserCard v-for="(user, index) in roomStore.getTopUsers" :key="index" :user="user"
-					:roomStatus="roomStore.status" />
-			</div>
-			<div class="room__table">
-				<div v-if="roomStore.status === 'reveal'" class="room__reveal">
-					<div class="room__results">
-						<span class="room__explain">Average</span>
-						<span class="room__explain">Median</span>
-						<span class="room__result">{{ roomStore.average }}</span>
-						<span class="room__result">{{ roomStore.median }}</span>
-					</div>
-					<CustomButton v-if="roomStore.isCurrentUserOwner" @click="roomStore.resetResults" :isLoading="roomStore.isLoading">
-						Reset game
-					</CustomButton>
+	<ViewWrapper>
+		<section class="room">
+			<div class="room__inner">
+				<div class="room__users">
+					<UserCard v-for="(user, index) in roomStore.getTopUsers" :key="index" :user="user"
+						:roomStatus="roomStore.status" />
 				</div>
-				<CustomButton v-else-if="roomStore.users.length === 1" @click="roomStore.copyInviteLink">
-					Copy invite link
-					<CopyIcon :width="18" :height="18" :color="'#fff'" />
-				</CustomButton>
-				<CustomButton v-else-if="roomStore.status === 'ready' && roomStore.isCurrentUserOwner" @click="roomStore.revealResults" :isLoading="roomStore.isLoading">
-					Show results
-				</CustomButton>
-				<div v-else>Pick your cards!</div>
+				<div class="room__table">
+					<div v-if="roomStore.status === 'reveal'" class="room__reveal">
+						<div class="room__results">
+							<span class="room__explain">Average</span>
+							<span class="room__explain">Median</span>
+							<span class="room__result">{{ roomStore.average }}</span>
+							<span class="room__result">{{ roomStore.median }}</span>
+						</div>
+						<CustomButton v-if="roomStore.isCurrentUserOwner" @click="roomStore.resetResults"
+							:isLoading="roomStore.isLoading">
+							Reset game
+						</CustomButton>
+					</div>
+					<CustomButton v-else-if="roomStore.users.length === 1" @click="roomStore.copyInviteLink">
+						Copy invite link
+						<CopyIcon :width="18" :height="18" :color="'#fff'" />
+					</CustomButton>
+					<CustomButton v-else-if="roomStore.status === 'ready' && roomStore.isCurrentUserOwner"
+						@click="roomStore.revealResults" :isLoading="roomStore.isLoading">
+						Show results
+					</CustomButton>
+					<div v-else>Pick your cards!</div>
+				</div>
+				<div class="room__users">
+					<UserCard v-for="(user, index) in roomStore.getBottomUsers" :key="index" :user="user"
+						:roomStatus="roomStore.status" />
+				</div>
 			</div>
-			<div class="room__users">
-				<UserCard v-for="(user, index) in roomStore.getBottomUsers" :key="index" :user="user"
-					:roomStatus="roomStore.status" />
-			</div>
-		</div>
-		<VoteCards />
-	</CustomWrapper>
+			<VoteCards />
+		</section>
+	</ViewWrapper>
 </template>
 
 <style>
 .room {
+	max-width: 40rem;
+	padding: 0 1rem;
+	width: 100%;
+	margin: auto;
+}
+
+.room__inner {
 	margin: auto 0;
 	display: flex;
 	flex-direction: column;
@@ -76,7 +87,7 @@ onMounted(() => {
 }
 
 @media (max-width: 480px) {
-	.room {
+	.room__inner {
 		padding: 0 0 2rem;
 	}
 }
