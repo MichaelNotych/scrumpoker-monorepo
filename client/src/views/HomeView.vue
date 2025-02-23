@@ -1,8 +1,12 @@
 <script setup>
 import ViewWrapper from '@/components/ViewWrapper.vue';
 import RoomForm from '@/components/RoomForm.vue';
+import { onMounted } from 'vue';
 
 // todo: add dark theme screenshots
+onMounted(() => {
+	document.title = '.scrumpoker';
+})
 </script>
 
 <template>
