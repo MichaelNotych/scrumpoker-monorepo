@@ -19,13 +19,20 @@ const voteHander = async (vote) => {
 }
 </script>
 <template>
-	<div class="cards">
+	<div v-if="roomStore.status === 'reveal'" class="cards">
+		<div class="cards__item" v-for="[vote, count] in roomStore.getVotesResult" :key="vote">
+			<div class="cards__count">
+				<span :style="`width: ${count / roomStore.votes.length * 100}%`"></span>
+			</div>
+			<div class="cards__card">{{ vote }}</div>
+		</div>
+	</div>
+	<div v-else class="cards">
 		<button v-for="card in cards" :key="card" @click="voteHander(card)"
 			:class="[
-				'card',
+				'cards__card',
 				card === roomStore.getCurrentUserVote ? 'choosed' : '',
 				clickedCard === card ? 'loading' : '',
-
 			]">
 			{{ card }}
 		</button>
@@ -40,14 +47,14 @@ const voteHander = async (vote) => {
 	gap: 0.5rem;
 }
 
-.card {
+.cards__card {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 4rem;
-	min-width: 4rem;
-	height: 5rem;
-	font-size: 1.25rem;
+	width: 3rem;
+	min-width: 3rem;
+	height: 4rem;
+	font-size: 1rem;
 	border: 1px solid var(--border-color);
 	border-radius: 0.5rem;
 	background-color: var(--background-color-light);
@@ -57,41 +64,32 @@ const voteHander = async (vote) => {
 		border-color 0.3s;
 }
 
-@media (max-width: 480px) {
-	.card {
-		width: 3rem;
-		min-width: 3rem;
-		height: 4rem;
-		font-size: 1rem;
-	}
-}
-
-.card:not(.choosed):hover {
+.cards__card:not(.choosed):hover {
 	transform: scale(1.05);
 	border-color: var(--accent-color-hover);
 }
 
-.card:not(.choosed):active {
+.cards__card:not(.choosed):active {
 	transform: scale(0.95);
 }
 
-.card.choosed {
+.cards__card.choosed {
 	background-color: var(--accent-color);
 	color: var(--accent-button-color);
 }
 
-.card.disabled {
+.cards__card.disabled {
 	pointer-events: none;
 	opacity: 0.5;
 }
 
-.card.loading {
+.cards__card.loading {
 	position: relative;
 	pointer-events: none;
 	border-color: var(--accent-color-hover);
 }
 
-.card.loading::after {
+.cards__card.loading::after {
 	content: '';
     position: absolute;
     left: calc(50% - 0.75rem);
@@ -104,12 +102,12 @@ const voteHander = async (vote) => {
     animation: spinner 0.9s linear infinite;
 }
 
-.card.choosed.loading::after {
+.cards__card.choosed.loading::after {
 	border-color: var(--accent-button-color);
 	border-top-color: var(--accent-color);
 }
 
-.card.loading::before {
+.cards__card.loading::before {
 	content: '';
 	position: absolute;
 	inset: 0;
@@ -121,5 +119,37 @@ const voteHander = async (vote) => {
 	to {
 		transform: rotate(360deg);
 	}
+}
+
+.cards__item {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.cards__item .cards__card {
+	pointer-events: none;
+}
+
+.cards__count {
+	position: absolute;
+	width: calc(100% - 0.5rem);
+	height: 0.5rem;
+	bottom: 0.25rem;
+	left: 0.25rem;
+	background-color: var(--background-color);
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.cards__count span {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 100%;
+	border-radius: 0.5rem;
+	background-color: var(--accent-color);
 }
 </style>

@@ -53,6 +53,13 @@ export const useRoomStore = defineStore('room', {
 		isCurrentUserOwner: (state) => {
 			const user = useUserStore();
 			return state.owner === user.userId;
+		},
+		getVotesResult: (state) => {
+			const votesObj = {};
+			state.votes.forEach((vote) => {
+				votesObj[vote.value] = (votesObj[vote.value] || 0) + 1;
+			});
+			return Object.entries(votesObj);
 		}
 	},
 	actions: {
