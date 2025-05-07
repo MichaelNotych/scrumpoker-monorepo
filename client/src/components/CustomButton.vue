@@ -3,7 +3,7 @@ defineProps({
 	type: {
 		type: String,
 		default: "primary",
-		validator: (value) => ["primary", "secondary"].includes(value)
+		validator: (value) => ["primary", "secondary", "hint"].includes(value)
 	},
 	size: {
 		type: String,
@@ -13,11 +13,15 @@ defineProps({
 	isLoading: {
 		type: Boolean,
 		default: false
+	},
+	buttonType: {
+		type: String,
+		default: 'submit',
 	}
 })
 </script>
 <template>
-	<button class="btn" :class="`btn_${type} btn_${size} ${isLoading ? 'loading' : ''}`">
+	<button class="btn" :class="`btn_${type} btn_${size} ${isLoading ? 'loading' : ''}`" :type="buttonType">
 		<slot></slot>
 	</button>
 </template>
@@ -81,6 +85,16 @@ defineProps({
 
 .btn_secondary:hover {
 	background-color: var(--background-color-light);
+}
+
+.btn_hint {
+	border: 1px solid var(--background-color-light);
+	color: var(--text-color);
+	background-color: var(--background-color-light);
+}
+
+.btn_hint:hover {
+	background-color: var(--background-color);
 }
 
 .btn.loading {

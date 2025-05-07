@@ -1,22 +1,29 @@
 <script setup>
 import ViewWrapper from '@/components/ViewWrapper.vue';
 import RoomForm from '@/components/RoomForm.vue';
-import { onMounted } from 'vue';
+import { ref } from 'vue';
+import CustomButton from '@/components/CustomButton.vue';
 
-// todo: add dark theme screenshots
-onMounted(() => {
-	document.title = '.scrumpoker';
-})
+const showMobileHelp = ref(false);
+const mobileHelpHandler = () => {
+	showMobileHelp.value = !showMobileHelp.value
+}
 </script>
 
 <template>
 	<ViewWrapper>
 		<div class="hero">
 			<div class="hero__form">
-				<RoomForm/>
+				<RoomForm />
+				<CustomButton class="hero__help" type="hint" button-type="button" :onclick="mobileHelpHandler">
+					How it works?
+				</CustomButton>
 			</div>
-			<div class="hero__intro">
+			<div :class="`hero__intro ${showMobileHelp ? 'visible' : ''}`">
 				<h2 class="hero__title">How it works:</h2>
+				<CustomButton class="hero__close" type="hint" button-type="button" :onclick="mobileHelpHandler">
+					X
+				</CustomButton>
 				<ul class="hero__list">
 					<li class="hero__item">
 						<div class="hero__info">
@@ -66,6 +73,34 @@ onMounted(() => {
 	margin: auto;
 }
 
+.hero__help {
+	display: none;
+}
+
+@media (max-width: 760px) {
+	.hero__help {
+		display: block;
+		position: absolute;
+		left: 2rem;
+        bottom: 2rem;
+	}
+}
+
+.hero__close {
+	display: none;
+}
+
+@media (max-width: 760px) {
+	.hero__close {
+		display: block;
+        position: absolute;
+        right: 2rem;
+        top: 1.5rem;
+        z-index: 7;
+        font-size: 24px;
+	}
+}
+
 .hero__intro {
 	max-width: 50%;
 	width: 100%;
@@ -73,20 +108,39 @@ onMounted(() => {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	padding: 5rem 3rem;
+	padding: 5rem 3rem 0rem 3rem;
+	overflow: hidden;
+	height: 100vh;
 }
 
 @media (max-width: 960px) {
 	.hero__intro {
-		padding: 2rem;
+		padding: 5rem 2rem 0rem;
 	}
 }
 
 @media (max-width: 760px) {
 	.hero__intro {
+		height: auto;
 		max-width: 100%;
 		margin-top: 2rem;
 		padding: 2rem 2rem 8rem;
+	}
+
+	.hero__intro {
+		margin: 0;
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 3;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.3s;
+	}
+
+	.hero__intro.visible {
+		opacity: 1;
+		pointer-events: inherit;
 	}
 }
 
@@ -99,24 +153,38 @@ onMounted(() => {
 @media (max-width: 760px) {
 	.hero__title {
 		font-size: 1.5rem;
-		margin-bottom: 1rem;
+		margin-bottom: 3rem;
 	}
 }
 
 .hero__list {
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
+	gap: 2rem;
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	width: 100%;
+	max-height: calc(100vh - 100px);
+	height: 100%;
+	overflow-y: auto;
+	padding-right: 20px;
+	margin-right: -20px;
+	width: calc(100% + 20px);
+	position: relative;
+	padding-bottom: 30px;
+}
+
+@media (max-width: 760px) {
+	.hero__list {
+		max-height: none;
+	}
 }
 
 .hero__item {
 	display: flex;
 	align-items: flex-start;
 	gap: 1rem;
+	flex-direction: column;
 }
 
 @media (max-width: 480px) {
@@ -126,24 +194,14 @@ onMounted(() => {
 }
 
 .hero__info {
-	width: 50%;
-}
-
-@media (max-width: 480px) {
-	.hero__info {
-		width: 100%;
-	}
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
 }
 
 .hero__img {
-	width: 50%;
+	width: 100%;
 	border-radius: 0.25rem;
-}
-
-@media (max-width: 480px) {
-	.hero__img {
-		width: 100%;
-	}
 }
 
 .hero__subtitle {
