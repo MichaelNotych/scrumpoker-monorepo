@@ -121,6 +121,14 @@ const submitHandler = async () => {
 	}
 }
 
+@media (max-width: 760px) {
+	.form {
+		border: none;
+		background: none;
+		padding: 0;
+	}
+}
+
 .form__title {
 	font-size: 2rem;
 	font-weight: 700;

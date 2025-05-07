@@ -44,13 +44,6 @@ const userStore = useUserStore();
 	}
 }
 
-@media (max-width: 760px) {
-	.header {
-		position: static;
-		padding: 1rem;
-	}
-}
-
 .header__wrapper {
 	display: flex;
 	align-items: center;

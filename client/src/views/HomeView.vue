@@ -73,6 +73,12 @@ const mobileHelpHandler = () => {
 	margin: auto;
 }
 
+@media (max-width: 760px) {
+	.hero__form {
+		padding: 0 2rem;
+	}
+}
+
 .hero__help {
 	display: none;
 }
