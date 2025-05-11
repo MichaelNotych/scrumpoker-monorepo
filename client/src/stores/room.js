@@ -23,6 +23,7 @@ export const useRoomStore = defineStore('room', {
 		eventSource: null,
 		isLoading: false,
 		isLeaving: false,
+		reconnectAttempts: 0,
 	}),
 	getters: {
 		getTopUsers: (state) => {
@@ -154,9 +155,13 @@ export const useRoomStore = defineStore('room', {
 
 				this.eventSource.addEventListener('error', (error) => {
 					console.log('error during room connection', error)
-					this.enterRoom(this.roomId)
-					//toast.error('Error during room connection, please try again')
-					//router.push('/')
+					if (this.reconnectAttempts < 3) {
+						this.enterRoom(this.roomId)
+						this.reconnectAttempts++
+					} else {
+						toast.error('Error during room connection, please try again')
+						router.push('/')
+					}
 				})
 			} catch (error) {
 				console.error('Cannot enter the room', error)
