@@ -154,8 +154,9 @@ export const useRoomStore = defineStore('room', {
 
 				this.eventSource.addEventListener('error', (error) => {
 					console.log('error during room connection', error)
-					toast.error('Error during room connection, please try again')
-					router.push('/')
+					this.enterRoom(this.roomId)
+					//toast.error('Error during room connection, please try again')
+					//router.push('/')
 				})
 			} catch (error) {
 				console.error('Cannot enter the room', error)
