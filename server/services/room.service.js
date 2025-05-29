@@ -54,6 +54,8 @@ const enterRoom = async (roomId, userId, res) => {
 	sendEvent("votesUpdate", roomId, {
 		votes,
 	});
+
+	sendPingEvent(res);
 };
 
 /**
@@ -68,6 +70,18 @@ const sendEvent = async (eventName, roomId, data) => {
 			`event: ${eventName}\ndata: ${JSON.stringify(data)}\n\n`
 		);
 	});
+};
+
+/**
+ * Send a ping event to keep the SSE connection alive
+ * @param {Response} res 
+ */
+const sendPingEvent = async (res) => {
+	setInterval(() => {
+		res.write(
+			`event: ping\ndata: ${JSON.stringify({ timestamp: Date.now() })}\n\n`
+		);
+	}, 10000);
 };
 
 

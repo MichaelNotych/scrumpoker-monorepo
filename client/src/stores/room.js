@@ -153,6 +153,11 @@ export const useRoomStore = defineStore('room', {
 					router.push('/')
 				})
 
+				this.eventSource.addEventListener('ping', (event) => {
+					const data = JSON.parse(event.data)
+					console.log('ping', data.timestamp)
+				})
+
 				this.eventSource.addEventListener('error', (error) => {
 					console.log('error during room connection', error)
 					if (this.reconnectAttempts < 3) {
@@ -161,6 +166,7 @@ export const useRoomStore = defineStore('room', {
 					} else {
 						toast.error('Error during room connection, please try again')
 						router.push('/')
+						this.cancelRoomStream()
 					}
 				})
 			} catch (error) {
@@ -255,9 +261,10 @@ export const useRoomStore = defineStore('room', {
 				toast.error(data.message)
 			} finally {
 				this.isLeaving = false;
-				router.push('/')
 				this.resetRoomState()
+				this.cancelRoomStream()
 				user.logout()
+				router.push('/')
 			}
 		},
 		resetRoomState() {
