@@ -3,7 +3,7 @@ defineProps({
 	type: {
 		type: String,
 		default: "primary",
-		validator: (value) => ["primary", "secondary", "hint"].includes(value)
+		validator: (value) => ["primary", "secondary"].includes(value)
 	},
 	size: {
 		type: String,
@@ -33,17 +33,14 @@ defineProps({
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
+	padding: 0.5rem 1rem;
+	border-radius: 0.25rem;
 	transition: background-color 0.3s;
 }
 
 .btn:disabled {
 	pointer-events: none;
 	opacity: 0.5;
-}
-
-.btn_md {
-	padding: 0.5rem 1rem;
-	border-radius: 0.25rem;
 }
 
 .btn_lg {
@@ -76,25 +73,15 @@ defineProps({
 	border: 1px solid var(--border-color);
 }
 
-.btn.btn_secondary.loading::after {
+.btn_secondary.loading::after {
 	border: 0.25rem solid var(--text-color);
 }
-.btn.btn_secondary.loading::after {
+.btn_secondary.loading::after {
 	border-top-color:var(--background-color);
 }
 
 .btn_secondary:hover {
 	background-color: var(--background-color-light);
-}
-
-.btn_hint {
-	border: 1px solid var(--background-color-light);
-	color: var(--text-color);
-	background-color: var(--background-color-light);
-}
-
-.btn_hint:hover {
-	background-color: var(--background-color);
 }
 
 .btn.loading {

@@ -15,13 +15,13 @@ const mobileHelpHandler = () => {
 		<div class="hero">
 			<div class="hero__form">
 				<RoomForm />
-				<CustomButton class="hero__help" type="hint" button-type="button" :onclick="mobileHelpHandler">
+				<CustomButton class="hero__help" type="secondary" button-type="button" :onclick="mobileHelpHandler">
 					How it works?
 				</CustomButton>
 			</div>
 			<div :class="`hero__intro ${showMobileHelp ? 'visible' : ''}`">
 				<h2 class="hero__title">How it works:</h2>
-				<CustomButton class="hero__close" type="hint" button-type="button" :onclick="mobileHelpHandler">
+				<CustomButton class="hero__close" type="secondary" button-type="button" :onclick="mobileHelpHandler">
 					X
 				</CustomButton>
 				<ul class="hero__list">
