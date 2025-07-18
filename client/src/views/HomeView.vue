@@ -15,8 +15,8 @@ const mobileHelpHandler = () => {
 		<div class="hero">
 			<div class="hero__form">
 				<RoomForm />
-				<CustomButton class="hero__help" type="secondary" button-type="button" :onclick="mobileHelpHandler">
-					How it works?
+				<CustomButton class="hero__help" button-type="button" :onclick="mobileHelpHandler">
+					?
 				</CustomButton>
 			</div>
 			<div :class="`hero__intro ${showMobileHelp ? 'visible' : ''}`">
@@ -81,14 +81,15 @@ const mobileHelpHandler = () => {
 
 .hero__help {
 	display: none;
+	position: absolute;
+	left: 2rem;
+    bottom: 2rem;
+	border-radius: 100%;
 }
 
 @media (max-width: 760px) {
 	.hero__help {
 		display: block;
-		position: absolute;
-		left: 2rem;
-        bottom: 2rem;
 	}
 }
 
@@ -127,26 +128,19 @@ const mobileHelpHandler = () => {
 
 @media (max-width: 760px) {
 	.hero__intro {
-		height: auto;
-		max-width: 100%;
-		margin-top: 2rem;
-		padding: 2rem 2rem 8rem;
-	}
-
-	.hero__intro {
-		margin: 0;
+		display: none;
 		position: absolute;
 		left: 0;
 		top: 0;
 		z-index: 3;
-		opacity: 0;
-		pointer-events: none;
-		transition: opacity 0.3s;
+		height: auto;
+		max-width: 100%;
+		padding: 2rem 2rem 8rem;
+		margin: 0;
 	}
 
 	.hero__intro.visible {
-		opacity: 1;
-		pointer-events: inherit;
+		display: flex;
 	}
 }
 
