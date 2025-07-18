@@ -51,7 +51,7 @@ onMounted(() => {
 					</div>
 					<CustomButton v-else-if="roomStore.users.length === 1" @click="roomStore.copyInviteLink">
 						Copy invite link
-						<CopyIcon :width="18" :height="18" :color="'#fff'" />
+						<CopyIcon :color="'#fff'" />
 					</CustomButton>
 					<CustomButton v-else-if="roomStore.status === 'ready' && roomStore.isCurrentUserOwner"
 						@click="roomStore.revealResults" :isLoading="roomStore.isLoading">

@@ -1,8 +1,8 @@
 <script setup>
 import { useRoomStore } from '@/stores/room';
-import CopyIcon from './icons/CopyIcon.vue';
-import CustomButton from './CustomButton.vue';
 import { useUserStore } from '@/stores/user';
+import CustomButton from './CustomButton.vue';
+import CopyIcon from './icons/CopyIcon.vue';
 import GithubIcon from './icons/GithubIcon.vue';
 
 const roomStore = useRoomStore();
@@ -14,7 +14,7 @@ const userStore = useUserStore();
 		<div v-if="roomStore.roomId && userStore.token" class="header__wrapper">
 			<div @click="roomStore.copyInviteLink" class="header__title">
 				Room: {{ roomStore.roomName }}
-				<CopyIcon :width="18" :height="18" />
+				<CopyIcon />
 			</div>
 			<CustomButton @click="roomStore.leaveRoom" :is-loading="roomStore.isLeaving" type="secondary">Leave room</CustomButton>
 		</div>

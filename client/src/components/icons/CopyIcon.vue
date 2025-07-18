@@ -3,11 +3,11 @@
 	defineProps({
 		width: {
 			type: Number,
-			default: 24
+			default: 18
 		},
 		height: {
 			type: Number,
-			default: 24
+			default: 18
 		},
 		color: {
 			type: String,
