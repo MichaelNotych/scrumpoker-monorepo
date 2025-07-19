@@ -28,6 +28,15 @@ const roomSchema = mongoose.Schema({
 	},
 }, { versionKey: false });
 
+// Cascading delete middleware
+roomSchema.pre(['findOneAndDelete', 'findByIdAndDelete'], async function() {
+    const roomId = this.getQuery()._id;
+    
+    // Find all users that belong to this room and delete
+    const User = mongoose.model('User');
+    await User.deleteMany({ roomId });
+});
+
 const Room = mongoose.model("Room", roomSchema);
 
 module.exports = Room;
