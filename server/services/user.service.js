@@ -19,8 +19,4 @@ const deleteById = async (id) => {
 	return await User.findByIdAndDelete(id);
 };
 
-const deleteUsersInRoom = async (roomId) => {
-	return await User.deleteMany({ roomId });
-};
-
-module.exports = { createUser, getUserById, deleteById, deleteUsersInRoom };
+module.exports = { createUser, getUserById, deleteById };

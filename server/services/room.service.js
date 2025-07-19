@@ -20,10 +20,6 @@ const getRoomById = async (id) => {
 	return room;
 };
 
-const deleteRoomById = async (id) => {
-	await Room.findByIdAndDelete(id);
-};
-
 /**
  * Add user to ACTIVE_ROOMS
  * @param {string} roomId 
@@ -54,8 +50,6 @@ const enterRoom = async (roomId, userId, res) => {
 	sendEvent("votesUpdate", roomId, {
 		votes,
 	});
-
-	sendPingEvent(res);
 };
 
 /**
@@ -71,19 +65,6 @@ const sendEvent = async (eventName, roomId, data) => {
 		);
 	});
 };
-
-/**
- * Send a ping event to keep the SSE connection alive
- * @param {Response} res 
- */
-const sendPingEvent = async (res) => {
-	setInterval(() => {
-		res.write(
-			`event: ping\ndata: ${JSON.stringify({ timestamp: Date.now() })}\n\n`
-		);
-	}, 10000);
-};
-
 
 /**
  * Helper for getting users in a room
@@ -186,7 +167,6 @@ const leaveRoom = async (roomId, userId) => {
 	if (!ACTIVE_ROOMS[roomId]) return;
 
 	await removeUserInActiveRoom(userId, roomId);
-	await removeUserDataInDB(userId, roomId);
 };
 
 /**
@@ -198,12 +178,6 @@ const proccessUserLeave = async (userId, roomId) => {
 	if (!ACTIVE_ROOMS[roomId]) return;
 
 	await removeUserInActiveRoom(userId, roomId);
-
-	setTimeout(() => {
-		if (ACTIVE_ROOMS[roomId] && !ACTIVE_ROOMS[roomId][userId]) {
-			removeUserDataInDB(userId, roomId);
-		}
-	}, 10000);
 };
 
 /**
@@ -225,35 +199,6 @@ const removeUserInActiveRoom = async (userId, roomId) => {
 
 	logger.info(`RM_USER_FROM_ROOM (userid: ${userId}) (users left in room: ${Object.keys(ACTIVE_ROOMS[roomId]).length})`);
 }
-
-/**
- * Remove user and user vote from DB. if there is 
- * no other users in the room, also delete a room
- * @param {string} userId 
- * @param {string} roomId 
- */
-const removeUserDataInDB = async (userId, roomId) => {
-	const room = await getRoomById(roomId);
-	const user = await userService.getUserById(userId);
-	const userIsRoomOwner = room.owner.equals(user._id);
-
-	const roomsCount = Object.keys(ACTIVE_ROOMS).length;
-	// if there is no users in room or current user that left room is room owner
-	// delete room, room users and votes
-	if ((ACTIVE_ROOMS[roomId] && !Object.keys(ACTIVE_ROOMS[roomId]).length) || userIsRoomOwner) {
-		sendEvent("roomDeleted", roomId, {});
-		delete ACTIVE_ROOMS[roomId];
-		await deleteRoomById(roomId);
-		await userService.deleteUsersInRoom(roomId);
-		await voteService.deleteAllRoomVotes(roomId);
-	} else {
-		// only delete user and its vote
-		await userService.deleteById(userId);
-		await voteService.deleteUserVote(userId);
-	}
-
-	logger.info(`RM_USER_FROM_DB (userid: ${userId}) (rooms left: ${roomsCount} -> ${Object.keys(ACTIVE_ROOMS).length})`);
-};
 
 module.exports = {
 	createRoom,
