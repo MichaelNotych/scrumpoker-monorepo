@@ -92,7 +92,7 @@ export const useRoomStore = defineStore('room', {
 			this.roomName = data.room.name
 			this.owner = data.room.owner
 		},
-		async enterRoom(roomId) {
+		enterRoom(roomId) {
 			try {
 				this.roomId = roomId
 				const user = useUserStore()
@@ -165,8 +165,8 @@ export const useRoomStore = defineStore('room', {
 						this.reconnectAttempts++
 					} else {
 						toast.error('Error during room connection, please try again')
-						router.push('/')
 						this.cancelRoomStream()
+						router.push(`/?id=${this.roomId}`)
 					}
 				})
 			} catch (error) {
