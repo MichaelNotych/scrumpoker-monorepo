@@ -153,11 +153,6 @@ export const useRoomStore = defineStore('room', {
 					router.push('/')
 				})
 
-				this.eventSource.addEventListener('ping', (event) => {
-					const data = JSON.parse(event.data)
-					console.log('ping', data.timestamp)
-				})
-
 				this.eventSource.addEventListener('error', (error) => {
 					console.log('error during room connection', error)
 					if (this.reconnectAttempts < 3) {
