@@ -99,6 +99,23 @@ const getUsersInRoom = (roomId) => {
 	return users;
 };
 
+const clearOldRooms = async () => {
+	const rooms = await Room.find({});
+	const deletedRooms = [];
+	logger.info(`DELETE OLD ROOMS`)
+	const dayAgoTimeStamp = Date.now() - 24 * 60 * 60 * 1000
+	for (let i = 0; i < rooms.length; i++) {
+		const room = rooms[i];
+		console.log(room.createdAt,  dayAgoTimeStamp, room.createdAt < dayAgoTimeStamp)
+		if (room.createdAt < dayAgoTimeStamp) {
+			deletedRooms.push(room._id);
+			await Room.deleteOne({_id: room._id});
+		}
+	}
+
+	logger.info(`Deleted rooms: ${deletedRooms.length}`)
+}
+
 /**
  * Set user vote
  * @param {string} vote 
@@ -249,5 +266,6 @@ module.exports = {
 	removeUserInActiveRoom,
 	getUsersInRoom,
 	sendEvent,
-	proccessUserLeave
+	proccessUserLeave,
+	clearOldRooms
 };
