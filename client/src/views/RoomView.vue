@@ -11,9 +11,10 @@ import ViewWrapper from '@/components/ViewWrapper.vue';
 const route = useRoute();
 const roomStore = useRoomStore();
 
-onMounted(() => {
+onMounted(async () => {
 	// set up room connection on mount
-	roomStore.enterRoom(route.params.id);
+	await roomStore.getRoom(route.params.id)
+	roomStore.enterRoom(route.params.id); 
 
 	// clean up room connection on leave
 	window.addEventListener('popstate', function (event) {
