@@ -35,6 +35,9 @@ roomSchema.pre(['findOneAndDelete', 'findByIdAndDelete'], async function() {
     // Find all users that belong to this room and delete
     const User = mongoose.model('User');
     await User.deleteMany({ roomId });
+    // Find all votes that belong to this room and delete
+    const Vote = mongoose.model('Vote');
+    await Vote.deleteMany({ roomId });
 });
 
 const Room = mongoose.model("Room", roomSchema);
