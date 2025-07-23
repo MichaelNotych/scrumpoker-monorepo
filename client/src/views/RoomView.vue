@@ -13,7 +13,9 @@ const roomStore = useRoomStore();
 
 onMounted(async () => {
 	// set up room connection on mount
-	await roomStore.getRoom(route.params.id)
+	const room = await roomStore.getRoom(route.params.id)
+	if (!room) return;
+
 	roomStore.enterRoom(route.params.id); 
 
 	// clean up room connection on leave

@@ -66,6 +66,10 @@ export const useRoomStore = defineStore('room', {
 	actions: {
 		async getRoom(roomId) {
 			const user = useUserStore()
+			if (!user.token) {
+				router.push(`/?id=${roomId}`);
+				return null;
+			}
 			const response = await api.get(`/room/${roomId}`,
 				{
 					headers: {
@@ -77,6 +81,8 @@ export const useRoomStore = defineStore('room', {
 			this.roomId = data.room._id
 			this.roomName = data.room.name
 			this.owner = data.room.owner
+
+			return data.room;
 		},
 		async createRoom(roomName) {
 			const user = useUserStore()
@@ -93,6 +99,10 @@ export const useRoomStore = defineStore('room', {
 			this.owner = data.room.owner
 		},
 		enterRoom(roomId) {
+			if (!roomId) {
+				console.error('no roomId', roomId)
+				return;
+			}
 			try {
 				this.roomId = roomId
 				const user = useUserStore()
@@ -160,8 +170,8 @@ export const useRoomStore = defineStore('room', {
 						this.reconnectAttempts++
 					} else {
 						toast.error('Error during room connection, please try again')
-						this.cancelRoomStream()
 						router.push(`/?id=${this.roomId}`)
+						this.cancelRoomStream()
 					}
 				})
 			} catch (error) {
